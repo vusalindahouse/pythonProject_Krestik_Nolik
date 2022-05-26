@@ -87,5 +87,10 @@ def game_mode():
         player_name(change_order=True)
 
 
-def show_st():
-    pass
+def show_stat():
+    config = ConfigParser()
+    config.read('data.ini')
+    print('Игровая статистика')
+    print()
+    for name, score in config['Scores'].items():
+        print (name, '=', score)
