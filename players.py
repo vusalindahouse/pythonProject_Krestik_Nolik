@@ -1,7 +1,7 @@
 
 from configparser import ConfigParser
-from help import MESSAGES, ANSWERS
-from field import check_saves
+import help
+import field
 
 SCORES = {}
 # PLAYERS = {'Ivan': [1, 1, 0]}
@@ -45,12 +45,12 @@ def save_ini():
 def player_name(bot_mode='', *, change_order=False):
     global PLAYER
     if len(PLAYER) == 0:
-        PLAYER = (input(MESSAGES[1]).lower(), )
+        PLAYER = (input(help.MESSAGES[1]).lower(),)
     elif len(PLAYER) == 1:
         if bot_mode:
             PLAYER = (PLAYER[0], bot_mode)
         else:
-            PLAYER = (PLAYER[0], input(MESSAGES[2]).lower())
+            PLAYER = (PLAYER[0], input(help.MESSAGES[2]).lower())
     if change_order:
         PLAYER = (PLAYER[1], PLAYER[0])
 
@@ -59,31 +59,31 @@ def player_name(bot_mode='', *, change_order=False):
 def game_mode():
     global PLAYER
     while True:
-        gm = input(MESSAGES[3]).lower()
-        if gm in ANSWERS[3]:
+        gm = input(help.MESSAGES[3]).lower()
+        if gm in help.ANSWERS[3]:
             break
-    if gm in ANSWERS[3][:3]:
-        if save := check_saves():
+    if gm in help.ANSWERS[3][:3]:
+        if save := field.check_saves():
             PLAYER = save
             return True
         while True:
-            dl = input(MESSAGES[4]).lower()
-            if dl in ANSWERS[4]:
+            dl = input(help.MESSAGES[4]).lower()
+            if dl in help.ANSWERS[4]:
                 break
-        if dl in ANSWERS[4][:3]:
+        if dl in help.ANSWERS[4][:3]:
             dl = 'ai1'
         else:
             dl = 'ai2'
         player_name(dl)
     else:
         player_name()
-        if save := check_saves(single=False):
+        if save := field.check_saves(single=False):
 
             PLAYER = save
             return True
 
 
-    if not (input(MESSAGES[5]).lower() in ANSWERS[5]):
+    if not (input(help.MESSAGES[5]).lower() in help.ANSWERS[5]):
         player_name(change_order=True)
 
 
